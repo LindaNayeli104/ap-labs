@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
 func main() {
-	fmt.Println("Welcome to the jungle")
+	name := os.Args[1]
+	fmt.Printf("Welcome %v to the jungle \n", name)
 }
