@@ -1,0 +1,1 @@
+gcc nombre.c -o nombre
