@@ -30,21 +30,29 @@ func calc(operator int, values []int) int {
 
 func main() {
 	params := os.Args[1:]
-	operacion := "empty"
+	var operacion string
 	operacionNum := 0
+	var nums []int
 
-	if len(params) == 0 {
+	if len(params) == 0 { //agregar esto al programa de c
 		fmt.Printf("Please enter the required parameter \n")
 		return
 	} else {
-		operacion := params[0]
-		lenArr := len(params) - 1
+		operacion = params[0]
+		//lenArr := len(params) - 1
 		//var nums [lenArr]int
-		var nums [lenArr]int = [lenArr]int{0}
+		//var nums [lenArr]int = [lenArr]int{0}
+
 		for i := 1; i < len(params); i++ {
 			//numInt := strconv.ParseInt(params[i], 0, 10)
 			//strconv.Atoi(params[i])
-			nums[i] = strconv.Atoi(params[i])
+			currentNum, err := strconv.Atoi(params[i])
+
+			if err != nil {
+				// Add code here to handle the error!
+			} else {
+				nums[i] = currentNum
+			}
 		}
 	}
 
@@ -55,7 +63,12 @@ func main() {
 	} else if operacion == "mult" {
 		operacionNum = 3
 	} else {
-		fmt.Println("Operador no valido\n")
+		fmt.Println("Operador no valido")
 		return
 	}
+
+	res := calc(operacionNum, nums)
+	fmt.Println(res)
+	return
+
 }
