@@ -21,19 +21,35 @@ long calc(int operator, int nValues, int *values) {
     return res;
 }
 
+int isInteger(double num)
+{
+    int truncated = (int)num;
+    return (num == truncated);
+}
+
 
 int main(int argc, char **argv){
     char *operacion = argv[1];
     int operacionNum;
     int nValues = argc-2;
     int nums[nValues]; // cambiar esto
-    
-    for(int i=0; i<nValues; i++){
-        //Agregar validacion de numeros
-        if(strcmp(argv[i+2], "0") && ){
+    char cadena[25];
 
+    for(int i=0; i<nValues; i++){
+        int numInt = atoi(argv[i+2]);
+        itoa(numInt, cadena, 10);
+        //Agregar validacion de numeros
+        //if(!strcmp(argv[i+2], "0") && atoi(argv[i+2]) == 0 ){
+        if(strcmp(argv[i+2], "0") && atoi(argv[i+2]) == 0){
+            printf("El termino ingresado no es un número entero\n");
+            return 0;
+        //}else if(!isInteger(atoi(argv[i+2]))){   // 0 false
+        }else if(strcmp(argv[i+2],cadena) == 0){   // 0 false
+         //validar si es int //no long no float
+         
+            printf("Entra\n");
         }
-        nums[i] =  atoi(argv[i+2]);
+        nums[i] = atoi(argv[i+2]);
     }
   
     if(strcmp(operacion, "add") == 0){
