@@ -22,7 +22,6 @@ func calc(operator int, values []int) int {
 		} else if operator == 3 {
 			res *= values[i]
 		}
-		//fmt.Println(i)
 	}
 
 	return res
@@ -33,26 +32,27 @@ func main() {
 	var operacion string
 	operacionNum := 0
 	var nums []int
-	//nums := make([]int,)
+	var cadena string
 
-	if len(params) <= 2 {
+	if len(params) < 2 {
 		fmt.Printf("Ingresa add, sub o mult y los enteros necesarios para la operacon\n")
 		return
 	} else {
 		operacion = params[0]
-		//lenArr := len(params) - 1
-		//var nums [lenArr]int
-		//var nums [lenArr]int = [lenArr]int{0}
 
 		for i := 1; i < len(params); i++ {
-			//numInt := strconv.ParseInt(params[i], 0, 10)
-			//strconv.Atoi(params[i])
 			currentNum, err := strconv.Atoi(params[i])
 
+			cadena = fmt.Sprintf("%d", currentNum)
+
+			if params[i] == "0" && currentNum == 0 || params[i] != cadena || currentNum > 2147483647 || currentNum < -2147483648 {
+				fmt.Printf("Por favor ingresa solo numeros enteros\n")
+				return
+			}
+
 			if err != nil {
-				// Add code here to handle the error!
+				fmt.Printf("No es un string valido\n")
 			} else {
-				//fmt.Printf("Entra\n")
 				nums = append(nums, currentNum)
 			}
 		}
@@ -70,7 +70,18 @@ func main() {
 	}
 
 	res := calc(operacionNum, nums)
-	fmt.Println(res)
+
+	for i := 1; i < len(params)-1; i++ {
+		//Agregar validacion de numeros
+		if operacionNum == 1 {
+			fmt.Printf("%d + ", nums[i-1])
+		} else if operacionNum == 2 {
+			fmt.Printf("%d - ", nums[i-1])
+		} else if operacionNum == 3 {
+			fmt.Printf("%d * ", nums[i-1])
+		}
+	}
+	fmt.Printf("%d = %d\n", nums[len(params)-2], res)
 	return
 
 }
