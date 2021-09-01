@@ -44,7 +44,6 @@ int main(int argc, char **argv){
         int numInt = atoi(argv[i+2]);
         sprintf(cadena, "%d", numInt);
 
-        //Agregar validacion de numeros
         if(strcmp(argv[i+2], "0") && atoi(argv[i+2]) == 0 || strcmp(argv[i+2],cadena) != 0){
             printf("Por favor ingresa solo numeros enteros\n");
             return 0;
@@ -65,7 +64,6 @@ int main(int argc, char **argv){
 
     long res = calc(operacionNum, nValues, nums);
     for(int i=0; i<nValues-1; i++){
-        //Agregar validacion de numeros
         if(operacionNum == 1){
             printf("%d + ", nums[i]);
         }else if(operacionNum == 2){
