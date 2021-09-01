@@ -33,9 +33,10 @@ func main() {
 	var operacion string
 	operacionNum := 0
 	var nums []int
+	//nums := make([]int,)
 
-	if len(params) == 0 { //agregar esto al programa de c
-		fmt.Printf("Please enter the required parameter \n")
+	if len(params) <= 2 {
+		fmt.Printf("Ingresa add, sub o mult y los enteros necesarios para la operacon\n")
 		return
 	} else {
 		operacion = params[0]
@@ -51,7 +52,8 @@ func main() {
 			if err != nil {
 				// Add code here to handle the error!
 			} else {
-				nums[i] = currentNum
+				//fmt.Printf("Entra\n")
+				nums = append(nums, currentNum)
 			}
 		}
 	}
