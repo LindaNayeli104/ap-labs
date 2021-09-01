@@ -7,7 +7,7 @@
 // operator will indicate if it's an addition (1), subtraction (2) or
 // multiplication (3)
 long calc(int operator, int nValues, int *values) {
-    int res = res = values[0];
+    int res = values[0];
 
     for(int i=1; i<nValues; i++){
         if(operator == 1){
@@ -29,25 +29,25 @@ int isInteger(double num)
 
 
 int main(int argc, char **argv){
+
+    if(argc <= 2){
+        printf("Ingresa add, sub o mult y los enteros necesarios para la operacon\n");
+        return 0;
+    }
     char *operacion = argv[1];
     int operacionNum;
     int nValues = argc-2;
-    int nums[nValues]; // cambiar esto
+    int nums[nValues];
     char cadena[25];
 
     for(int i=0; i<nValues; i++){
         int numInt = atoi(argv[i+2]);
-        itoa(numInt, cadena, 10);
+        sprintf(cadena, "%d", numInt);
+
         //Agregar validacion de numeros
-        //if(!strcmp(argv[i+2], "0") && atoi(argv[i+2]) == 0 ){
-        if(strcmp(argv[i+2], "0") && atoi(argv[i+2]) == 0){
-            printf("El termino ingresado no es un número entero\n");
+        if(strcmp(argv[i+2], "0") && atoi(argv[i+2]) == 0 || strcmp(argv[i+2],cadena) != 0){
+            printf("Por favor ingresa solo numeros enteros\n");
             return 0;
-        //}else if(!isInteger(atoi(argv[i+2]))){   // 0 false
-        }else if(strcmp(argv[i+2],cadena) == 0){   // 0 false
-         //validar si es int //no long no float
-         
-            printf("Entra\n");
         }
         nums[i] = atoi(argv[i+2]);
     }
@@ -63,7 +63,7 @@ int main(int argc, char **argv){
         return 0;
     }
 
-    long res = calc(operacionNum, nValues, nums);   // se pasa como nums o *nums
+    long res = calc(operacionNum, nValues, nums);
     for(int i=0; i<nValues-1; i++){
         //Agregar validacion de numeros
         if(operacionNum == 1){
@@ -75,6 +75,5 @@ int main(int argc, char **argv){
         }
     }
     printf("%d = %ld\n", nums[nValues-1], res);
-    //printf("La respuesta es: %ld\n", res);
     return 0;
 }
