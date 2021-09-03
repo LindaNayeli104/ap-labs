@@ -80,12 +80,22 @@ func main() {
 		//new(Point)
 		randNum1 = min + rand.Float64()*(max-min)
 		randNum2 = min + rand.Float64()*(max-min)
+		//fmt.Printf("%.2f\n", randNum1)
+
 		point := Point{randNum1, randNum2}
 		points = append(points, point)
 
 	}
-}
+
+	fmt.Println(points[0])
+	fmt.Println(points[1])
+	fmt.Println(points[2])
+	fmt.Println(points[3])
+} //acaba main
 
 //!-path
 
 // -100 y 100 inclusivo??
+//go tiene operador ternario??
+//Tengo que usar a fuerza las funciones que van func (p Point) Distance(q Point) float64 { ?? //no entiendo
+// Como se hacde un if en una linea??
