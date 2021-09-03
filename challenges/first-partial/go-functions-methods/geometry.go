@@ -7,17 +7,32 @@
 //!+point
 package main
 
-import "math"
+import (
+	"fmt"
+	"math"
+	"math/rand"
+	"os"
+	"strconv"
+)
 
-type Point struct{ X, Y float64 }
+type Point struct {
+	X, Y float64
+}
 
+/* type Point struct { //mio
+	x, y float64
+}
+
+func (p Point) X    //p.X( )      x := p.X()
+func (p Point) Y
+*/
 // traditional function
 func Distance(p, q Point) float64 {
 	return math.Hypot(q.X-p.X, q.Y-p.Y)
 }
 
 // same thing, but as a method of the Point type
-func (p Point) Distance(q Point) float64 {
+func (p Point) Distance(q Point) float64 { //no entiendo
 	return math.Hypot(q.X-p.X, q.Y-p.Y)
 }
 
@@ -40,6 +55,37 @@ func (path Path) Distance() float64 {
 }
 
 func main() {
+	params := os.Args[1:]
+	sides, err := strconv.Atoi(params[0])
+
+	if err != nil {
+		fmt.Printf("No es un string valido\n")
+	}
+
+	var points []Point
+
+	fmt.Printf("- Generating a [%d] sides figure\n", sides)
+	fmt.Printf("- Figure's vertices\n")
+	// - (  -3,   1)
+	fmt.Printf("- Figure's Perimeter\n")
+	//- 5.38 + 3.60 + 3.92 + 3.80 = 16.70
+
+	//x := rand.Intn(200) - 100 //200 o 201
+	var randNum1 float64 = 0.0
+	var randNum2 float64 = 0.0
+	var min float64 = -100.0
+	var max float64 = 101.0
+
+	for i := 0; i < sides; i++ {
+		//new(Point)
+		randNum1 = min + rand.Float64()*(max-min)
+		randNum2 = min + rand.Float64()*(max-min)
+		point := Point{randNum1, randNum2}
+		points = append(points, point)
+
+	}
 }
 
 //!-path
+
+// -100 y 100 inclusivo??
