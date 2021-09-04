@@ -39,7 +39,6 @@ func (p Point) Distance(q Point) float64 { //no entiendo
 //!-point
 
 //!+path
-
 // A Path is a journey connecting the points with straight lines.
 type Path []Point
 
@@ -62,7 +61,8 @@ func main() {
 		fmt.Printf("No es un string valido\n")
 	}
 
-	var points []Point
+	//var points []Point
+	var points Path
 
 	fmt.Printf("- Generating a [%d] sides figure\n", sides)
 	fmt.Printf("- Figure's vertices\n")
@@ -87,10 +87,15 @@ func main() {
 
 	}
 
+	//------------------------------------------------------
+	perimeter := points.Distance()
+
 	fmt.Println(points[0])
 	fmt.Println(points[1])
 	fmt.Println(points[2])
 	fmt.Println(points[3])
+	fmt.Printf("%.2f\n", perimeter)
+
 } //acaba main
 
 //!-path
