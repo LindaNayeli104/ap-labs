@@ -13,44 +13,23 @@ import (
 	"math/rand"
 	"os"
 	"strconv"
+	"time"
 )
 
 type Point struct {
-	X, Y float64
-}
-
-/* type Point struct { //mio
 	x, y float64
 }
 
-func (p Point) X    //p.X( )      x := p.X()
-func (p Point) Y
-*/
-// traditional function
-func Distance(p, q Point) float64 {
-	return math.Hypot(q.X-p.X, q.Y-p.Y)
+func (p Point) GetX() float64 {
+	return p.x
 }
 
-// same thing, but as a method of the Point type
-func (p Point) Distance(q Point) float64 { //no entiendo
-	return math.Hypot(q.X-p.X, q.Y-p.Y)
+func (p Point) GetY() float64 {
+	return p.y
 }
 
-//!-point
-
-//!+path
-// A Path is a journey connecting the points with straight lines.
-type Path []Point
-
-// Distance returns the distance traveled along the path.
-func (path Path) Distance() float64 {
-	sum := 0.0
-	for i := range path {
-		if i > 0 {
-			sum += path[i-1].Distance(path[i])
-		}
-	}
-	return sum
+func (p Point) Distance(q Point) float64 {
+	return math.Hypot(q.GetX()-p.GetX(), q.GetY()-p.GetY())
 }
 
 func main() {
@@ -61,26 +40,21 @@ func main() {
 		fmt.Printf("No es un string valido\n")
 	}
 
-	//var points []Point
-	var points Path
+	var points []Point
+	var distances []float64
 
 	fmt.Printf("- Generating a [%d] sides figure\n", sides)
 	fmt.Printf("- Figure's vertices\n")
-	// - (  -3,   1)
-	fmt.Printf("- Figure's Perimeter\n")
-	//- 5.38 + 3.60 + 3.92 + 3.80 = 16.70
 
-	//x := rand.Intn(200) - 100 //200 o 201
 	var randNum1 float64 = 0.0
 	var randNum2 float64 = 0.0
 	var min float64 = -100.0
 	var max float64 = 101.0
 
 	for i := 0; i < sides; i++ {
-		//new(Point)
+		rand.Seed(time.Now().UnixNano())
 		randNum1 = min + rand.Float64()*(max-min)
 		randNum2 = min + rand.Float64()*(max-min)
-		//fmt.Printf("%.2f\n", randNum1)
 
 		point := Point{randNum1, randNum2}
 		points = append(points, point)
@@ -88,19 +62,30 @@ func main() {
 	}
 
 	//------------------------------------------------------
-	perimeter := points.Distance()
+	perimeter := 0.0
+	for i := 0; i < sides-1; i++ {
+		perimeter += points[i].Distance(points[i+1])
+		distances = append(distances, points[i].Distance(points[i+1]))
+	}
 
-	fmt.Println(points[0])
-	fmt.Println(points[1])
-	fmt.Println(points[2])
-	fmt.Println(points[3])
-	fmt.Printf("%.2f\n", perimeter)
+	perimeter += points[sides-1].Distance(points[0])
+	distances = append(distances, points[sides-1].Distance(points[0]))
+
+	//----------------------------------------------------------
+
+	for i := 0; i < sides; i++ {
+		fmt.Printf("  - ( %.2f, %.2f)\n", points[i].GetX(), points[i].GetY())
+	}
+
+	fmt.Printf("- Figure's Perimeter\n")
+	fmt.Printf("  - ")
+	for i := 0; i < sides-1; i++ {
+		fmt.Printf("%.2f + ", distances[i])
+	}
+
+	fmt.Printf("%.2f = %.2f\n", distances[sides-1], perimeter)
 
 } //acaba main
 
-//!-path
-
-// -100 y 100 inclusivo??
-//go tiene operador ternario??
-//Tengo que usar a fuerza las funciones que van func (p Point) Distance(q Point) float64 { ?? //no entiendo
-// Como se hacde un if en una linea??
+//No mando puntos
+//Mando mas de 3 puntos

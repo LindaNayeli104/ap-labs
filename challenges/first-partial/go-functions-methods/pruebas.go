@@ -9,26 +9,26 @@ import (
 )
 
 type Point struct {
-	X, Y float64
+	x, y float64
 }
 
-func GetX(p Point) float64 {
-	return p.X
+func (p Point) GetX() float64 {
+	return p.x
 }
 
-func GetY(p Point) float64 {
-	return p.Y
+func (p Point) GetY() float64 {
+	return p.y
 }
 
 func OnSegment(p, q, r Point) bool {
-	if GetX(q) <= math.Max(GetX(p), GetX(r)) && GetX(q) >= math.Min(GetX(p), GetX(r)) && GetY(q) <= math.Max(GetY(p), GetY(r)) && GetY(q) >= math.Min(GetY(p), GetY(r)) {
+	if q.GetX() <= math.Max(p.GetX(), r.GetX()) && q.GetX() >= math.Min(p.GetX(), r.GetX()) && q.GetY() <= math.Max(p.GetY(), r.GetY()) && q.GetY() >= math.Min(p.GetY(), r.GetY()) {
 		return true
 	}
 	return false
 }
 
 func Orientation(p, q, r Point) int {
-	var val float64 = (GetY(q)-GetY(p))*(GetX(r)-GetX(q)) - (GetX(q)-GetX(p))*(GetY(r)-GetY(q)) //int
+	var val float64 = (q.GetY()-p.GetY())*(r.GetX()-q.GetX()) - (q.GetX()-p.GetX())*(r.GetY()-q.GetY()) //int
 
 	if val == 0 {
 		return 0 // colinear
@@ -126,5 +126,3 @@ func main() {
 } //acaba main
 
 //!-path
-
-// -100 y 100 inclusivo??
