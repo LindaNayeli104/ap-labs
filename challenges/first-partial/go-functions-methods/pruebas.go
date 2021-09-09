@@ -41,37 +41,37 @@ func Orientation(p, q, r Point) int {
 	return 2
 }
 
-func DoIntersect(p1, q1, p2, q2 Point) bool {
+func DoIntersect(inicio1, fin1, inicio2, fin2 Point) bool {
 	// Find the four orientations needed for general and
 	// special cases
-	var o1 int = Orientation(p1, q1, p2)
-	var o2 int = Orientation(p1, q1, q2)
-	var o3 int = Orientation(p2, q2, p1)
-	var o4 int = Orientation(p2, q2, q1)
+	var o1 int = Orientation(inicio1, fin1, inicio2)
+	var o2 int = Orientation(inicio1, fin1, fin2)
+	var o3 int = Orientation(inicio2, fin2, inicio1)
+	var o4 int = Orientation(inicio2, fin2, fin1)
+
+	// Special Cases
+	// inicio1, fin1 and inicio2 are colinear and inicio2 lies on segment inicio1fin1
+	if o1 == 0 && OnSegment(inicio1, inicio2, fin1) {
+		return false
+	}
+
+	// inicio1, fin1 and fin2 are colinear and fin2 lies on segment inicio1fin1
+	if o2 == 0 && OnSegment(inicio1, fin2, fin1) {
+		return true
+	}
+
+	// inicio2, fin2 and inicio1 are colinear and inicio1 lies on segment inicio2fin2
+	if o3 == 0 && OnSegment(inicio2, inicio1, fin2) {
+		return true
+	}
+
+	// inicio2, fin2 and fin1 are colinear and fin1 lies on segment inicio2fin2
+	if o4 == 0 && OnSegment(inicio2, fin1, fin2) {
+		return false
+	}
 
 	// General case
 	if o1 != o2 && o3 != o4 {
-		return true
-	}
-
-	// Special Cases
-	// p1, q1 and p2 are colinear and p2 lies on segment p1q1
-	if o1 == 0 && OnSegment(p1, p2, q1) {
-		return true
-	}
-
-	// p1, q1 and q2 are colinear and q2 lies on segment p1q1
-	if o2 == 0 && OnSegment(p1, q2, q1) {
-		return true
-	}
-
-	// p2, q2 and p1 are colinear and p1 lies on segment p2q2
-	if o3 == 0 && OnSegment(p2, p1, q2) {
-		return true
-	}
-
-	// p2, q2 and q1 are colinear and q1 lies on segment p2q2
-	if o4 == 0 && OnSegment(p2, q1, q2) {
 		return true
 	}
 
@@ -112,12 +112,12 @@ func main() {
 
 	//-------------------------------------------------------Pruebas
 
-	p1 := Point{-3, 1}
-	q1 := Point{2, 3}
-	p2 := Point{2, 3}
-	q2 := Point{0, 0}
+	inicio1 := Point{-3.00, 58.79}
+	fin1 := Point{-13.68, 25.08}
+	inicio2 := Point{-88.68, 16.16}
+	fin2 := Point{-90.06, -83.95}
 
-	if DoIntersect(p1, q1, p2, q2) {
+	if DoIntersect(inicio1, fin1, inicio2, fin2) {
 		fmt.Printf("Yes\n")
 	} else {
 		fmt.Printf("No\n")
