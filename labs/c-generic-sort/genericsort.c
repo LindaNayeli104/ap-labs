@@ -3,9 +3,40 @@
 #include <string.h>
 #include <stdlib.h>
 
-void quicksort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
+/* void quicksort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
 
-void mergesort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
+void mergesort(void *lineptr[], int left, int right, int (*comp)(void *, void *)); */
+
+//********************************************************************************************************************
+
+void quicksort(void *v[], int left, int right, int (*comp)(void *, void *)){
+    int i, last;
+    void swap(void *v[], int, int);
+
+    if (left >= right){
+        return;
+    }
+	    
+    swap(v, left, (left + right)/2);
+    last = left;
+    for (i = left+1; i <= right; i++){
+	    if ((*comp)(v[i], v[left]) < 0){
+	        swap(v, ++last, i);
+        }
+    }
+    swap(v, left, last);
+    quicksort(v, left, last-1, comp);
+    quicksort(v, last+1, right, comp);
+}
+
+void swap(void *v[], int i, int j){
+    void *temp;
+    temp = v[i];
+    v[i] = v[j];
+    v[j] = temp;
+}
+
+//********************************************************************************************************************
 
 void printInstructions(){
     printf("Ingrese todos los elementos en el orden correcto.\n");
@@ -15,20 +46,33 @@ void printInstructions(){
     printf("Ingresa el nombre del archivo que contendra el resultado en lugar de 'qs_sorted_numbers.txt', este debe tener el prefijo 'sorted_'\n");
 }
 
+void readFile(){
+    FILE *in_file  = fopen("numbers.txt", "r"); //cambiar esto por generico
+    if (in_file == NULL){   
+        printf("Error! Could not open file\n"); 
+        exit(-1);
+    }
+
+    char nums[150];  // que es este numero
+
+    while(!feof(in_file)){
+        fgets(nums, 150, in_file);    // que es este numero
+    }
+    fclose(in_file);
+
+    for(int i=0; i<nums.length; i++){
+           
+    }
+}
+
 int main(int argc, char **argv){
-    //printf("numero de args:  %d\n", areNums);
 	
-
-
     if(argc < 5){
         printInstructions();
         return 0;
     }
 
     if(argc == 5){
-
-      
-
          char *inputFile = argv[1];
          char *sortingAlg = argv[2];
          char *outputFile = argv[4];
@@ -60,6 +104,12 @@ int main(int argc, char **argv){
               return 0;
         } */
          
+        // Todo bien, ya se validó, ahora llamaremos a la función
+        //void mergesort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
+        readFile();
+
+       
+
     }else if(argc == 6){
         char *inputFile = argv[2];
         char *sortingAlg = argv[3];
@@ -107,6 +157,5 @@ int main(int argc, char **argv){
         return 0;
     }
     
-
     return 0;
 }
