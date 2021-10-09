@@ -4,31 +4,32 @@
 #include <stdlib.h>
 
 void readFile(){
-    FILE *in_file  = fopen("numbers.txt", "r"); //cambiar esto por generico
-    if (in_file == NULL){   
+    FILE *inputFile  = fopen("numbers.txt", "r"); //cambiar esto por generico
+    if (inputFile == NULL){   
         printf("Error! Could not open file\n"); 
-        exit(-1);
+        exit(-1);//Checar esto
     }
 
-    char linea[100];  // que es este numero
+    char linea[100];
     int nums[100];
     int i=0;
-    while(!feof(in_file)){
-        fgets(linea, 100, in_file);    // que es este numero
-        if(!(strcmp(linea, "\n"))){
-             nums[i] = atoi(linea);
+
+    while(!feof(inputFile)){
+        fgets(linea, 100, inputFile);    // que es este numero
+        if((strcmp(linea, "\n"))){
+            int num = atoi(linea);
+             nums[i] = num;
             i++;
         }
-       
     }
-    printf(" sizeeeeeeeeeeeeeeeeeeeeeeeee= %d\n", i);
-    fclose(in_file);
-    printf(" sizeeeeeeeeeeeeeeeeeeeeeeeee= %ld\n", sizeof(nums));
-    printf(" pruebaaaaaaaaaaaaaaaaaaaaaa= %d\n", nums[101]);
-    //for(int i=0; i<sizeof(nums); i++){            // porque me da 400
-    for(int i=0; i<100; i++){
-           //printf(" %d= %d\n", i, nums[i]);
+
+    int lengthArray = sizeof(nums)/sizeof(nums[0]);
+    printf(" size= %d\n", lengthArray);
+    for(int i=0; i<lengthArray; i++){
+           printf(" %d= %d\n", i, nums[i]);
     }
+    
+    
 }
 
 int main(int argc, char **argv){
