@@ -46,8 +46,30 @@ void printInstructions(){
     printf("Ingresa el nombre del archivo que contendra el resultado en lugar de 'qs_sorted_numbers.txt', este debe tener el prefijo 'sorted_'\n");
 }
 
-void readFileIntegers(){
-    FILE *inputFile  = fopen("numbers.txt", "r"); //cambiar esto por generico
+void readFileIntegers(char *fileName){
+    printf("Entroooooooooooooooooooo\n"); 
+    FILE *inputFile  = fopen(fileName, "r"); //cambiar esto por generico
+    if (inputFile == NULL){   
+        printf("Error! Could not open file\n"); 
+        exit(-1);//Checar esto
+    }
+
+    char linea[100];
+    int nums[100];
+    int i=0;
+
+    while(!feof(inputFile)){
+        fgets(linea, 100, inputFile);    // que es este numero
+        if((strcmp(linea, "\n"))){
+            int num = atoi(linea);
+             nums[i] = num;
+            i++;
+        }
+    }
+
+    void readFileStrings(char *fileName){
+    printf("Entroooooooooooooooooooo\n"); 
+    FILE *inputFile  = fopen(fileName, "r"); //cambiar esto por generico
     if (inputFile == NULL){   
         printf("Error! Could not open file\n"); 
         exit(-1);//Checar esto
@@ -74,8 +96,16 @@ void readFileIntegers(){
     
 }
 
+    int lengthArray = sizeof(nums)/sizeof(nums[0]);
+    printf(" size= %d\n", lengthArray);
+    for(int i=0; i<lengthArray; i++){
+           printf(" %d= %d\n", i, nums[i]);
+    }
+    
+}
+
 int main(int argc, char **argv){
-	
+	printf("Entra principiooooooooo 111111\n"); 
     if(argc < 5){
         printInstructions();
         return 0;
@@ -115,7 +145,8 @@ int main(int argc, char **argv){
          
         // Todo bien, ya se validó, ahora llamaremos a la función
         //void mergesort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
-        readFile();
+        printf("Entra principiooooooooo\n"); 
+        readFileStrings(inputFile);
 
        
 
@@ -160,6 +191,11 @@ int main(int argc, char **argv){
             printInstructions();
             return 0;
         }
+        // Todo bien, ya se validó, ahora llamaremos a la función
+        //void mergesort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
+        printf("Entra principiooooooooo\n"); 
+        readFileIntegers(inputFile);
+
     }else{
         printf("Tiene argumentos extras\n");
         printInstructions();
