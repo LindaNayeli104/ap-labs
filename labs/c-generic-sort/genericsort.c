@@ -9,34 +9,41 @@ void mergesort(void *lineptr[], int left, int right, int (*comp)(void *, void *)
 
 //********************************************************************************************************************
 
-void quicksort(void *v[], int left, int right, int (*comp)(void *, void *)){
+
+void quicksort(void *v[], int left, int right,
+	   int (*comp)(void *, void *))
+{
     int i, last;
     void swap(void *v[], int, int);
 
-    if (left >= right){
-        return;
-    }
-	    
+    if (left >= right)
+	return;
     swap(v, left, (left + right)/2);
     last = left;
-    for (i = left+1; i <= right; i++){
-	    if ((*comp)(v[i], v[left]) < 0){
-	        swap(v, ++last, i);
-        }
-    }
+    for (i = left+1; i <= right; i++)
+	if ((*comp)(v[i], v[left]) < 0)
+	    swap(v, ++last, i);
     swap(v, left, last);
     quicksort(v, left, last-1, comp);
     quicksort(v, last+1, right, comp);
 }
 
-void swap(void *v[], int i, int j){
+void swap(void *v[], int i, int j)
+{
     void *temp;
     temp = v[i];
     v[i] = v[j];
     v[j] = temp;
 }
 
+void mergesort(void *lineptr[], int left, int right, int (*comp)(void *, void *)) {
+	
+}
+
+
 //********************************************************************************************************************
+
+//---------------------------------------------------------------------- printInstructions()
 
 void printInstructions(){
     printf("Ingrese todos los elementos en el orden correcto.\n");
@@ -46,82 +53,32 @@ void printInstructions(){
     printf("Ingresa el nombre del archivo que contendra el resultado en lugar de 'qs_sorted_numbers.txt', este debe tener el prefijo 'sorted_'\n");
 }
 
-void readFileIntegers(char *fileName){
-    printf("Entroooooooooooooooooooo\n"); 
-    FILE *inputFile  = fopen(fileName, "r"); //cambiar esto por generico
-    if (inputFile == NULL){   
-        printf("Error! Could not open file\n"); 
-        exit(-1);//Checar esto
-    }
 
-    char linea[100];
-    int nums[100];
-    int i=0;
 
-    while(!feof(inputFile)){
-        fgets(linea, 100, inputFile);    // que es este numero
-        if((strcmp(linea, "\n"))){
-            int num = atoi(linea);
-             nums[i] = num;
-            i++;
-        }
-    }
 
-    void readFileStrings(char *fileName){
-    printf("Entroooooooooooooooooooo\n"); 
-    FILE *inputFile  = fopen(fileName, "r"); //cambiar esto por generico
-    if (inputFile == NULL){   
-        printf("Error! Could not open file\n"); 
-        exit(-1);//Checar esto
-    }
 
-    char linea[100];
-    int nums[100];
-    int i=0;
+//---------------------------------------------------------------------- main()
 
-    while(!feof(inputFile)){
-        fgets(linea, 100, inputFile);    // que es este numero
-        if((strcmp(linea, "\n"))){
-            int num = atoi(linea);
-             nums[i] = num;
-            i++;
-        }
-    }
-
-    int lengthArray = sizeof(nums)/sizeof(nums[0]);
-    printf(" size= %d\n", lengthArray);
-    for(int i=0; i<lengthArray; i++){
-           printf(" %d= %d\n", i, nums[i]);
-    }
-    
-}
-
-    int lengthArray = sizeof(nums)/sizeof(nums[0]);
-    printf(" size= %d\n", lengthArray);
-    for(int i=0; i<lengthArray; i++){
-           printf(" %d= %d\n", i, nums[i]);
-    }
-    
-}
 
 int main(int argc, char **argv){
-	printf("Entra principiooooooooo 111111\n"); 
+    int left = 0;
+    int right = 100; //Checar esto
     if(argc < 5){
         printInstructions();
         return 0;
     }
 
     if(argc == 5){
-         char *inputFile = argv[1];
+         char *inputFileName = argv[1];
          char *sortingAlg = argv[2];
          char *outputFile = argv[4];
 
-        if(strcmp(inputFile, "numbers.txt") == 0){
-            printf("Ingrese '-n' antes de 'numbers.txt'. Observe el ejemplo.\n\n");
+        if(strcmp(inputFileName, "numbers.txt") == 0){
+            printf("Ingrese '-n' antes de 'numbers.txt'. Observe el ejempLlamartlo.\n\n");
             printInstructions();
             return 0;
         }
-        if(strcmp(inputFile, "strings.txt")){
+        if(strcmp(inputFileName, "strings.txt")){
             printf("Ingrese 'strings.txt' o 'numbers.txt' dependiendo de qué desee evaluar. Observe el ejemplo.\n\n");
             printInstructions();
             return 0;
@@ -143,19 +100,50 @@ int main(int argc, char **argv){
               return 0;
         } */
          
-        // Todo bien, ya se validó, ahora llamaremos a la función
-        //void mergesort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
-        printf("Entra principiooooooooo\n"); 
-        readFileStrings(inputFile);
+        
+        //printf("Entra principiooooooooo\n"); 
 
-       
+        // Todo bien, ya se validó, ahora llamaremos a la función
+
+        //------------------------------------------------- Read file
+        FILE *inputFile  = fopen(inputFileName, "r"); //cambiar esto por generico
+        if (inputFile == NULL){   
+            printf("Error! Could not open file\n"); 
+            exit(-1);//Checar esto
+        }
+
+        char linea[100];
+        void *dataPointer[100];
+
+        int i=0;
+        while(!feof(inputFile)){
+            fgets(linea, 100, inputFile);    // que es este numero
+            if((strcmp(linea, "\n"))){
+                dataPointer[i] = malloc(100);//32
+                dataPointer[i] = linea;
+                i++;
+            }
+        }
+        //-------------------------------------------------
+
+
+        if(strcmp(sortingAlg, "-mergesort")){
+            mergesort(dataPointer, left, right, (int (*)(void *, void *))strcmp);  
+        }else if(strcmp(sortingAlg, "-quicksort")){
+            
+            quicksort(dataPointer, left, right, (int (*)(void *, void *))strcmp);  
+        }
+
+         for(int i=0; i<100; i++){
+            printf("%s", (char*)dataPointer[i]);
+        } 
 
     }else if(argc == 6){
-        char *inputFile = argv[2];
+        char *inputFileName = argv[2];
         char *sortingAlg = argv[3];
         char *outputFile = argv[5];
              
-        /* if (strcmp(inputFile, "numbers.txt") == 1){
+        /* if (strcmp(inputFileName, "numbers.txt") == 1){
             printf("res: no equal\n");
             printf("%s\n",argv[2] );
             printf("numbers.txt\n" );
@@ -171,12 +159,12 @@ int main(int argc, char **argv){
             printInstructions();
             return 0;
         }
-        if(strcmp(inputFile, "strings.txt") == 0){
+        if(strcmp(inputFileName, "strings.txt") == 0){
             printf("No ingrese '-n' antes de 'strings.txt', '-n' no es necesario para evaluar strings. Observe el ejemplo.\n\n");
             printInstructions();
             return 0;
         }
-        if(strcmp(inputFile, "numbers.txt")){
+        if(strcmp(inputFileName, "numbers.txt")){
             printf("Ingrese 'strings.txt' o 'numbers.txt' dependiendo de qué desee evaluar. Observe el ejemplo..\n\n");
             printInstructions();
             return 0;
@@ -191,16 +179,52 @@ int main(int argc, char **argv){
             printInstructions();
             return 0;
         }
+
+        //printf("Entra principiooooooooo\n"); 
+        
         // Todo bien, ya se validó, ahora llamaremos a la función
-        //void mergesort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
-        printf("Entra principiooooooooo\n"); 
-        readFileIntegers(inputFile);
+        //readFileIntegers(inputFileName);
+
+        //------------------------------------------------- Read file
+        FILE *inputFile  = fopen(inputFileName, "r"); //cambiar esto por generico
+        if (inputFile == NULL){   
+            printf("Error! Could not open file\n"); 
+            exit(-1);//Checar esto
+        }
+
+        char linea[100];
+        void *dataPointer[100];
+
+        int i=0;
+        while(!feof(inputFile)){
+            fgets(linea, 100, inputFile);    // que es este numero
+            if((strcmp(linea, "\n"))){
+                dataPointer[i] = malloc(100);//32
+                dataPointer[i] = linea;
+                i++;
+            }
+        }
+        //-------------------------------------------------
+        if(strcmp(sortingAlg, "-mergesort")){
+            mergesort(dataPointer, left, right, (int (*)(void *, void *))strcmp);  
+        }else if(strcmp(sortingAlg, "-quicksort")){
+            
+            quicksort(dataPointer, left, right, (int (*)(void *, void *))strcmp);  
+        }
+
+         for(int i=0; i<100; i++){
+            printf("%s\n", "");
+            printf("%s", (char*)dataPointer[i]);
+        } 
 
     }else{
         printf("Tiene argumentos extras\n");
         printInstructions();
         return 0;
     }
+
+ 
+    
     
     return 0;
 }

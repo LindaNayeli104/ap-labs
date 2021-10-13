@@ -11,25 +11,26 @@ void readFileStrings(){
     }
 
     char linea[100];
-    char strings[100][100]; //Checar esto
-    int i=0;
+    void *stringsPointer[100];
 
+    int i=0;
     while(!feof(inputFile)){
         fgets(linea, 100, inputFile);    // que es este numero
         if((strcmp(linea, "\n"))){
-            char aux = linea;
-            strings[i] = aux;
-            strcpy(strings[i] , aux);
-            printf("%s\n", strings[i]);
+            stringsPointer[i] = malloc(100);//32
+            stringsPointer[i] = linea;
+            printf("%s", (char*)stringsPointer[i]);   //Checar
             i++;
         }
     }
 
-    int lengthArray = sizeof(strings)/sizeof(strings[0]);
-    printf(" size= %d\n", lengthArray);
+    //int lengthArray = sizeof(strings)/sizeof(strings[0]);
+    //printf(" size= %d\n", lengthArray);
+    /*
     for(int i=0; i<lengthArray; i++){
            //printf(" %d= %s\n", i, strings[i]);
     }   
+    */
 }
 
 int main(int argc, char **argv){
