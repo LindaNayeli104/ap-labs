@@ -3,43 +3,17 @@
 #include <string.h>
 #include <stdlib.h>
 
-/* void quicksort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
+void quicksort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
 
-void mergesort(void *lineptr[], int left, int right, int (*comp)(void *, void *)); */
+void mergesort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
 
 //********************************************************************************************************************
 
-
-void quicksort(void *v[], int left, int right,
-	   int (*comp)(void *, void *))
-{
-    int i, last;
-    void swap(void *v[], int, int);
-
-    if (left >= right)
-	return;
-    swap(v, left, (left + right)/2);
-    last = left;
-    for (i = left+1; i <= right; i++)
-	if ((*comp)(v[i], v[left]) < 0)
-	    swap(v, ++last, i);
-    swap(v, left, last);
-    quicksort(v, left, last-1, comp);
-    quicksort(v, last+1, right, comp);
+int compare(const void *a, const void *b) {
+    double n1 = atof(a);
+    double n2 = atof(b);
+    return (int) (n1 - n2);
 }
-
-void swap(void *v[], int i, int j)
-{
-    void *temp;
-    temp = v[i];
-    v[i] = v[j];
-    v[j] = temp;
-}
-
-void mergesort(void *lineptr[], int left, int right, int (*comp)(void *, void *)) {
-	
-}
-
 
 //********************************************************************************************************************
 
@@ -117,26 +91,34 @@ int main(int argc, char **argv){
 
         int i=0;
         while(!feof(inputFile)){
-            fgets(linea, 100, inputFile);    // que es este numero
+            fgets(linea, 100, inputFile);
+           
             if((strcmp(linea, "\n"))){
-                dataPointer[i] = malloc(100);//32
-                dataPointer[i] = linea;
+                dataPointer[i] = malloc(strlen(linea));
+                strcpy(dataPointer[i], linea);
                 i++;
+               
             }
         }
         //-------------------------------------------------
-
-
-        if(strcmp(sortingAlg, "-mergesort")){
+        //Validacion esta mal checar-------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if(strcmp(sortingAlg, "-mergesort") == 0){
             mergesort(dataPointer, left, right, (int (*)(void *, void *))strcmp);  
-        }else if(strcmp(sortingAlg, "-quicksort")){
-            
+        }else if(strcmp(sortingAlg, "-quicksort") == 0){
+            printf("Quicksort");
             quicksort(dataPointer, left, right, (int (*)(void *, void *))strcmp);  
         }
 
-         for(int i=0; i<100; i++){
+         /* for(int i=0; i<100; i++){
             printf("%s", (char*)dataPointer[i]);
-        } 
+        }  */
+        FILE *salida = fopen(outputFile, "w+");
+        for(int i = 0; i < 100 ; i++){
+            fprintf(salida, "%s", (char *)dataPointer[i]);
+        }
+
+
+        fclose(salida);
 
     }else if(argc == 6){
         char *inputFileName = argv[2];
@@ -197,34 +179,33 @@ int main(int argc, char **argv){
 
         int i=0;
         while(!feof(inputFile)){
-            fgets(linea, 100, inputFile);    // que es este numero
+            fgets(linea, 100, inputFile);
             if((strcmp(linea, "\n"))){
-                dataPointer[i] = malloc(100);//32
-                dataPointer[i] = linea;
+                dataPointer[i] = malloc(strlen(linea));
+                strcpy(dataPointer[i], linea);
                 i++;
             }
         }
         //-------------------------------------------------
         if(strcmp(sortingAlg, "-mergesort")){
-            mergesort(dataPointer, left, right, (int (*)(void *, void *))strcmp);  
+            mergesort(dataPointer, left, right, (int (*)(void *, void *))compare);  
         }else if(strcmp(sortingAlg, "-quicksort")){
-            
-            quicksort(dataPointer, left, right, (int (*)(void *, void *))strcmp);  
+            quicksort(dataPointer, left, right, (int (*)(void *, void *))compare);  
         }
 
-         for(int i=0; i<100; i++){
-            printf("%s\n", "");
-            printf("%s", (char*)dataPointer[i]);
-        } 
+        FILE *salida = fopen(outputFile, "w+");
+        for(int i = 0; i < 100 ; i++){
+            fprintf(salida, "%s", (char *)dataPointer[i]);
+        }
 
+        fclose(salida);
     }else{
         printf("Tiene argumentos extras\n");
         printInstructions();
         return 0;
     }
 
- 
-    
-    
+
+   
     return 0;
 }
