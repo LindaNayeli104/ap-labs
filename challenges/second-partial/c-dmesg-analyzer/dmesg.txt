@@ -12,7 +12,7 @@
 [  +0.000088] pci 0000:00:1f.3: PME# supported from D3hot D3cold
 [  +0.000342] pci 0000:00:1f.4: [8086:02a3] type 00 class 0x0c0500
 [  +0.000031] pci 0000:00:1f.4: reg 0x10: [mem 0xc4322000-0xc43220ff 64bit]
-[  +0.000029] pci 0000:00:1f.4: reg 0x20: [io  0xefa0-0xefbf]
+[  +0.000029] pci 0000:00:1f.4: reg 0x20: pci 0000:02:00.0: reg 0x14:[io  0xefa0-0xefbf]
 [  +0.000200] pci 0000:00:1f.5: [8086:02a4] type 00 class 0x0c8000
 [  +0.000015] pci 0000:00:1f.5: reg 0x10: [mem 0xfe010000-0xfe010fff]
 [  +0.000247] acpiphp: Slot [1] registered
